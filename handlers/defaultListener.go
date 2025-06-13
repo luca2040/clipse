@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"runtime"
 	"strconv"
 	"syscall"
 	"time"
@@ -47,12 +48,13 @@ func RunListener(displayServer string, imgEnabled bool) error {
 				prevClipboardContent = input // update previous content
 			}
 
-			hasImage, imageStr := utils.ClipboardHasImage()
+			if runtime.GOOS == "windows" {
+				hasImage, imageStr := utils.ClipboardHasImage()
 
-			if hasImage && utils.HasClipboardContentChanged() {
-				utils.LogINFO("Saving img")
-				clipboardData <- imageStr
-				prevClipboardContent = imageStr
+				if hasImage && utils.HasClipboardContentChanged() {
+					clipboardData <- imageStr
+					prevClipboardContent = imageStr
+				}
 			}
 
 			if dataType == Text {
@@ -72,7 +74,6 @@ MainLoop:
 				continue
 			}
 			dataType = utils.DataType(input)
-			utils.LogINFO(fmt.Sprintf("Detected data type: %s", dataType))
 			switch dataType {
 			case Text:
 				if err := config.AddClipboardItem(input, "null"); err != nil {
@@ -84,14 +85,19 @@ MainLoop:
 					itemTitle := fmt.Sprintf("%s %s", imgIcon, fileName)
 					filePath := filepath.Join(config.ClipseConfig.TempDirPath, fileName)
 
-					if err := shell.SaveImage(filePath, displayServer); err != nil {
-						if err2 := utils.SavePNGStringToFile(input, filePath); err2 != nil {
-							utils.LogERROR(fmt.Sprintf("failed to save image - 1 | %s", err))
-							break
-						}
+					var saveErr error
+					if runtime.GOOS == "windows" {
+						saveErr = utils.SavePNGStringToFile(input, filePath)
+					} else {
+						saveErr = shell.SaveImage(filePath, displayServer)
+					}
+
+					if saveErr != nil {
+						utils.LogERROR(fmt.Sprintf("failed to save image [%s] | %v", runtime.GOOS, saveErr))
+						break
 					}
 					if err := config.AddClipboardItem(itemTitle, filePath); err != nil {
-						utils.LogERROR(fmt.Sprintf("failed to save image - 2 | %s", err))
+						utils.LogERROR(fmt.Sprintf("failed to add image to clipboard items | %s", err))
 					}
 				}
 			}
