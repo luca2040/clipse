@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"runtime"
 	"strconv"
 	"strings"
 	"syscall"
@@ -75,6 +76,11 @@ func KillAll(bin string) {
 }
 
 func RunNohupListener(displayServer string) {
+	if runtime.GOOS == "windows" {
+		startDetachedProcess(listenCmd)
+		return
+	}
+
 	switch displayServer {
 	case "wayland":
 		// run optimized wl-clipboard listener
