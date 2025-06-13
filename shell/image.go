@@ -32,8 +32,7 @@ func ImagesEnabled(displayServer string) bool {
 
 func CopyImage(imagePath, displayServer string) error {
 	if runtime.GOOS == "windows" {
-		utils.CopyImageToClipboard(imagePath)
-		return nil
+		return utils.CopyImageToClipboard(imagePath)
 	}
 
 	cmd := fmt.Sprintf("%s %s", xCopyImgCmd, imagePath)
