@@ -10,7 +10,7 @@ import (
 
 	ps "github.com/mitchellh/go-ps"
 
-	"github.com/savedra1/clipse/utils"
+	"github.com/luca2040/clipse/utils"
 )
 
 func KillExisting() error {

@@ -8,7 +8,7 @@ import (
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/savedra1/clipse/config"
+	"github.com/luca2040/clipse/config"
 )
 
 func (m *Model) newItemDelegate() itemDelegate {

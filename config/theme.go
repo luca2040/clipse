@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/savedra1/clipse/utils"
+	"github.com/luca2040/clipse/utils"
 )
 
 type CustomTheme struct {

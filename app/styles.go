@@ -7,7 +7,7 @@ import (
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/savedra1/clipse/config"
+	"github.com/luca2040/clipse/config"
 )
 
 var (

@@ -14,8 +14,8 @@ import (
 	"github.com/muesli/termenv"
 	"github.com/nfnt/resize"
 
-	"github.com/savedra1/clipse/config"
-	"github.com/savedra1/clipse/utils"
+	"github.com/luca2040/clipse/config"
+	"github.com/luca2040/clipse/utils"
 )
 
 func NewPreview() viewport.Model {

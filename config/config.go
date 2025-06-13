@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/savedra1/clipse/shell"
-	"github.com/savedra1/clipse/utils"
+	"github.com/luca2040/clipse/shell"
+	"github.com/luca2040/clipse/utils"
 )
 
 type Config struct {

@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/savedra1/clipse/utils"
+	"github.com/luca2040/clipse/utils"
 )
 
 func ImagesEnabled(displayServer string) bool {

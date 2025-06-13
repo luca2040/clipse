@@ -10,8 +10,8 @@ import (
 	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/savedra1/clipse/config"
-	"github.com/savedra1/clipse/utils"
+	"github.com/luca2040/clipse/config"
+	"github.com/luca2040/clipse/utils"
 )
 
 type Model struct {

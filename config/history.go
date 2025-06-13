@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/savedra1/clipse/shell"
-	"github.com/savedra1/clipse/utils"
+	"github.com/luca2040/clipse/shell"
+	"github.com/luca2040/clipse/utils"
 )
 
 /* File contains logic for parsing the clipboard history.

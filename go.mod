@@ -1,4 +1,4 @@
-module github.com/savedra1/clipse
+module github.com/luca2040/clipse
 
 go 1.23.0
 

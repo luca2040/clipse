@@ -3,7 +3,7 @@ package app
 import (
 	"github.com/charmbracelet/bubbles/key"
 
-	"github.com/savedra1/clipse/config"
+	"github.com/luca2040/clipse/config"
 )
 
 // default keybind definitions
