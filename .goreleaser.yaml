@@ -1,0 +1,6 @@
+version: 2
+archives:
+  - strip_binary_directory: true
+    format_overrides:
+      - goos: windows
+        formats: ["zip"]
