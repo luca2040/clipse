@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"runtime"
 	"strconv"
 	"strings"
@@ -67,11 +68,18 @@ func KillExistingFG() {
 }
 
 func KillAll(bin string) {
-	cmd := exec.Command("pkill", "-f", bin)
-	err := cmd.Run() // Wait for this to finish before executing
+	var cmd *exec.Cmd
+
+	if runtime.GOOS == "windows" {
+		exeName := filepath.Base(bin)
+		cmd = exec.Command("taskkill", "/F", "/IM", exeName, "/T")
+	} else {
+		cmd = exec.Command("pkill", "-f", bin)
+	}
+
+	err := cmd.Run()
 	if err != nil {
-		utils.LogERROR(fmt.Sprintf("Failed to kill all existing processes for %s.", bin))
-		return
+		utils.LogERROR(fmt.Sprintf("Failed to kill all existing processes for %s: %v", bin, err))
 	}
 }
 
