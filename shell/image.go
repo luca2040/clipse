@@ -5,11 +5,16 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 
 	"github.com/savedra1/clipse/utils"
 )
 
 func ImagesEnabled(displayServer string) bool {
+	if runtime.GOOS == "windows" {
+		return true
+	}
+
 	var cmd *exec.Cmd
 	switch displayServer {
 	case "wayland":
@@ -26,6 +31,11 @@ func ImagesEnabled(displayServer string) bool {
 }
 
 func CopyImage(imagePath, displayServer string) error {
+	if runtime.GOOS == "windows" {
+		utils.CopyImageToClipboard(imagePath)
+		return nil
+	}
+
 	cmd := fmt.Sprintf("%s %s", xCopyImgCmd, imagePath)
 	if displayServer == "wayland" {
 		cmd = fmt.Sprintf("%s %s", wlCopyImgCmd, imagePath)

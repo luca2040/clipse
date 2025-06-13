@@ -46,10 +46,20 @@ func RunListener(displayServer string, imgEnabled bool) error {
 				clipboardData <- input       // Pass clipboard data to main goroutine
 				prevClipboardContent = input // update previous content
 			}
+
+			hasImage, imageStr := utils.ClipboardHasImage()
+
+			if hasImage && utils.HasClipboardContentChanged() {
+				utils.LogINFO("Saving img")
+				clipboardData <- imageStr
+				prevClipboardContent = imageStr
+			}
+
 			if dataType == Text {
 				time.Sleep(defaultPollInterval)
 				continue
 			}
+
 			time.Sleep(mediaPollInterval)
 		}
 	}()
@@ -62,6 +72,7 @@ MainLoop:
 				continue
 			}
 			dataType = utils.DataType(input)
+			utils.LogINFO(fmt.Sprintf("Detected data type: %s", dataType))
 			switch dataType {
 			case Text:
 				if err := config.AddClipboardItem(input, "null"); err != nil {
@@ -74,11 +85,13 @@ MainLoop:
 					filePath := filepath.Join(config.ClipseConfig.TempDirPath, fileName)
 
 					if err := shell.SaveImage(filePath, displayServer); err != nil {
-						utils.LogERROR(fmt.Sprintf("failed to save image | %s", err))
-						break
+						if err2 := utils.SavePNGStringToFile(input, filePath); err2 != nil {
+							utils.LogERROR(fmt.Sprintf("failed to save image - 1 | %s", err))
+							break
+						}
 					}
 					if err := config.AddClipboardItem(itemTitle, filePath); err != nil {
-						utils.LogERROR(fmt.Sprintf("failed to save image | %s", err))
+						utils.LogERROR(fmt.Sprintf("failed to save image - 2 | %s", err))
 					}
 				}
 			}
